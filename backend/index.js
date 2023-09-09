@@ -5,11 +5,18 @@ import cors from "cors";
 import cron from "node-cron";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import jobRoutes from "./routes/Jobs.js";
+import schemaRoutes from "./routes/Schema.js";
+import Job from "./models/Job.js";
+import { executeScheduledJobs, executeCustomJobs } from "./helpers/Jobs.js";
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(jobRoutes);
+app.use(schemaRoutes);
 
 const connectToDataBase = () => {
   mongoose
@@ -35,6 +42,16 @@ const connectToDataBaseCron = async () => {
   }
 };
 
+cron.schedule("* * * * *", async () => {
+  await connectToDataBaseCron();
+
+  const jobIdArray = await Job.find({});
+  await executeScheduledJobs(jobIdArray);
+  await executeCustomJobs(jobIdArray);
+
+  // closeDatabaseConnection();
+});
+
 app.use((error, req, res, next) => {
   const statusCode = error.statusCode || 500;
   const message = error.message || "Some error occured!";
@@ -47,3 +64,5 @@ const startServer = () => {
 };
 
 connectToDataBase();
+
+///need to create schema again since you just added ABI
