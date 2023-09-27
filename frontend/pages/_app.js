@@ -1,43 +1,39 @@
-import '@rainbow-me/rainbowkit/styles.css';
-import '@/styles/globals.css';
-import Layout from '@/components/Layout/Layout';
-import { GoogleOAuthProvider } from '@react-oauth/google';
+import "@rainbow-me/rainbowkit/styles.css";
+import "@/styles/globals.css";
+import Layout from "@/components/Layout/Layout";
 import {
   darkTheme,
   getDefaultWallets,
   RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
-import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
-const Calibration = {
-  id: 314159,
-  name: 'Filecoin Calibration',
-  network: 'Filecoin',
+} from "@rainbow-me/rainbowkit";
+import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { publicProvider } from "wagmi/providers/public";
+const Pego = {
+  id: 123456,
+  name: "Pego Testnet",
+  network: "Pego",
   nativeCurrency: {
     decimals: 18,
-    name: 'Filecoin',
-    symbol: 'tFIL',
+    name: "Pego",
+    symbol: "PG",
   },
   rpcUrls: {
     public: {
-      http: ['https://rpc.ankr.com/filecoin_testnet'],
+      http: ["https://rpc.pegotest.net"],
     },
     default: {
-      http: ['https://rpc.ankr.com/filecoin_testnet'],
+      http: ["https://rpc.pegotest.net"],
     },
   },
   blockExplorers: {
-    default: { name: 'Filfox', url: 'https://calibration.filfox.info/en' },
+    default: { name: "pegoscan", url: "https://scan.pegotest.net/" },
   },
 };
-const { chains, publicClient } = configureChains(
-  [Calibration],
-  [publicProvider()]
-);
+const { chains, publicClient } = configureChains([Pego], [publicProvider()]);
 
 const { connectors } = getDefaultWallets({
-  appName: 'FVMCall',
-  projectId: 'YOUR_PROJECT_ID',
+  appName: "PegoCall",
+  projectId: "e80ea3e2c168b8cce2a31011beed0cb9",
   chains,
 });
 
@@ -48,22 +44,21 @@ const wagmiConfig = createConfig({
 });
 export default function App({ Component, pageProps }) {
   return (
-    <GoogleOAuthProvider clientId='260356816232-qm10ch3k345h9jh2uhh7ma71f3m00pvo.apps.googleusercontent.com'>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider
-          chains={chains}
-          theme={darkTheme({
-            accentColor: '#271E5D',
-            accentColorForeground: 'white',
-            borderRadius: 'medium',
-            fontStack: 'system',
-            overlayBlur: 'small',
-          })}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </GoogleOAuthProvider>
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={darkTheme({
+          accentColor: "#271E5D",
+          accentColorForeground: "white",
+          borderRadius: "medium",
+          fontStack: "system",
+          overlayBlur: "small",
+        })}
+      >
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }

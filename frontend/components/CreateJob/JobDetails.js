@@ -28,7 +28,7 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
     setShowModal(true);
   };
 
-  const createJobHandler = async (address, pkpWallet) => {
+  const createJobHandler = async (address) => {
     setLoading(true);
     try {
       if (formData.automationType === "time") {
@@ -40,7 +40,7 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
             contractAddress: formData.contractAddress,
             functionName: formData.function.name,
             ABI: formData.contractAbi,
-            scheduledBy: address ? address : pkpWallet.address,
+            scheduledBy: address,
             params: formData.inputParams,
             scheduledTime: customTime,
           }),
@@ -64,7 +64,7 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
             contractAddress: formData.contractAddress,
             value: Number(formData.amount),
             data: encodedData,
-            scheduledBy: address ? address : pkpWallet.address,
+            scheduledBy: address,
             ABI: formData.contractAbi,
             scheduledTime: customTime, ///this needs to be manual time like 4 hrs later or so - done
           }),
@@ -76,11 +76,7 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
         const response = await data.json();
         console.log("response", response);
       }
-      await registerKeeper(
-        formData.contractAddress,
-        formData.amount,
-        pkpWallet
-      );
+      await registerKeeper(formData.contractAddress, formData.amount);
 
       setLoading(false);
       setShowModal(false);

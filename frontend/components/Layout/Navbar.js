@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useRouter } from "next/router";
-import { ens } from "../ENS";
 import { useAccount } from "wagmi";
 
 const Navbar = () => {
   const { address } = useAccount();
   const router = useRouter();
-  const [ensName, setEnsName] = useState("");
-
-  useEffect(() => {
-    const fetchEns = async () => {
-      const { ensName } = await ens(address);
-      setEnsName(ensName);
-    };
-    fetchEns();
-  }, [address]);
 
   return (
     <nav
@@ -63,19 +53,20 @@ const Navbar = () => {
         >
           {router.pathname === "/dashboard" ? (
             <p>
-              {ensName
-                ? ensName
-                : `${address?.slice(0, 5)}...${address?.slice(
-                    address?.length - 3
-                  )}`}
+              {address
+                ? address?.slice(0, 5) +
+                  "..." +
+                  address?.slice(address?.length - 3)
+                : "Dashboard"}
             </p>
           ) : (
-            "Go to Dashboard"
+            <div className="flex gap-1 items-center">
+              Go to Dashboard
+              <span>
+                <BsArrowRightShort size={22} />
+              </span>
+            </div>
           )}
-
-          <span>
-            <BsArrowRightShort size={22} />
-          </span>
         </button>
       </div>
     </nav>
