@@ -7,7 +7,6 @@ import { useAccount } from "wagmi";
 import { registerKeeper } from "@/utils";
 import { getWalletClient } from "@wagmi/core";
 import { ethers } from "ethers";
-import { keeperABI } from "@/constants";
 import SuccessModal from "@/components/UI/Modals/SuccessModal";
 
 const JobDetails = ({ setPage, page, formData, setFormData }) => {
@@ -33,7 +32,7 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
     setLoading(true);
     try {
       if (formData.automationType === "time") {
-        console.log('here');
+        console.log("here");
         const data = await fetch(`${BackendUri}/job/timebased`, {
           method: "POST",
           body: JSON.stringify({
@@ -53,7 +52,10 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
         const response = await data.json();
         console.log(response);
       } else if (formData.automationType === "custom") {
-        const encodedData = ethers.utils.hexZeroPad(ethers.utils.hexlify(0), 32);
+        const encodedData = ethers.utils.hexZeroPad(
+          ethers.utils.hexlify(0),
+          32
+        );
         console.log(formData);
         const data = await fetch(`${BackendUri}/job/custom`, {
           method: "POST",
@@ -72,7 +74,7 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
         });
 
         const response = await data.json();
-        console.log('response', response);
+        console.log("response", response);
       }
       await registerKeeper(
         formData.contractAddress,
