@@ -227,22 +227,6 @@ const JobDetails = ({ setPage, page, formData, setFormData }) => {
           <p className="mb-6 text-gray-400 text-sm ml-2">
             This amount will be used as gas fee for running this job
           </p>
-
-          <div className="flex gap-2 items-start">
-            <input
-              required
-              onChange={(event) => {
-                setFormData({
-                  ...formData,
-                  notification: event.target.checked,
-                });
-              }}
-              value={formData.notification}
-              type="checkbox"
-              className="bg-[#232327] h-4 w-4 border border-gray-900 rounded-md placeholder:text-gray-500 text-gray-300 my-1 outline-none mb-10"
-            />
-            <label>Enable notifications for task automation</label>
-          </div>
         </div>
       </div>
       {/* <div className='flex items-center justify-between mt-4'> */}
