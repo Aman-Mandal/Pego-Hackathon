@@ -9,8 +9,8 @@ import {
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 const Pego = {
-  id: 123456,
-  name: "Pego Testnet",
+  id: 20201022,
+  name: "Pego Mainnet",
   network: "Pego",
   nativeCurrency: {
     decimals: 18,
@@ -19,10 +19,10 @@ const Pego = {
   },
   rpcUrls: {
     public: {
-      http: ["https://rpc.pegotest.net"],
+      http: ["https://pegorpc.com/"],
     },
     default: {
-      http: ["https://rpc.pegotest.net"],
+      http: ["https://scan.pego.network"],
     },
   },
   blockExplorers: {
